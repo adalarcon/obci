@@ -1,0 +1,19 @@
+{
+  "name": "get-streaming",
+  "version": "1.0.0",
+  "description": "Get streaming example",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "get"
+  ],
+  "author": "AJ Keller",
+  "license": "MIT",
+  "dependencies": {
+    "@openbci/cyton": "^2.0.1",
+    "openbci": "^2.0.0"
+  }
+}
