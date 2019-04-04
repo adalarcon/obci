@@ -1,7 +1,7 @@
 {
-  "name": "get-streaming",
+  "name": "openbci",
   "version": "1.0.0",
-  "description": "Get streaming example",
+  "description": "example",
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
@@ -10,7 +10,7 @@
   "keywords": [
     "get"
   ],
-  "author": "AJ Keller",
+  "author": "adalarcon",
   "license": "MIT",
   "dependencies": {
     "@openbci/cyton": "^2.0.1",
