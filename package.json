@@ -14,6 +14,7 @@
   "license": "MIT",
   "dependencies": {
     "@openbci/cyton": "^2.0.1",
-    "openbci": "^2.0.0"
+    "serialport": "^7.1.5",
+    "socket.io-client": "^2.2.0"
   }
 }
