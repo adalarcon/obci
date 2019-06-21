@@ -22,13 +22,14 @@ board.autoFindOpenBCIBoard().then(portName => {
       console.log("[app][board] Channels: ", board.numberOfChannels())
       console.log("[app][board] Sample Rate", board.sampleRate())
 
-      board.on('sample',(sample) => {
-        for (let i = 0; i < board.numberOfChannels(); i++) {
-          console.log("[app][board] Channel " + (i + 1) + ": " + sample.channelData[i].toFixed(8) + " Volts.")
-        }
-        Socket.emit("sample", sample);
-      })
+      Socket.emit("info", board.getInfo());
 
+      board.on('sample',(sample) => {
+        if(sample.sampleNumber != 1){
+          process.stdout.write(".");
+          Socket.emit("sample", sample);
+        }
+      })
     })
   })
 })
@@ -57,7 +58,7 @@ Socket.on('connect', () => {
   });
 
   Socket.on('stop', (data) => {
-    console.log('[app][socket] start', data)
+    console.log('[app][socket] stop', data)
     board.streamStop()
   });
 
@@ -69,6 +70,13 @@ Socket.on('connect', () => {
       console.log("[app][board] error: ", error)
     })
   });
+
+  Socket.on('getInfo', (data) => {
+    console.log('[app][socket] getInfo', data)
+    Socket.emit("info", board.getInfo());
+  });
+
+
 });
 
 Socket.on('disconnect', () => {
@@ -84,6 +92,5 @@ function exitHandler (options, err) {
   if (err) console.log(err.stack)
   if (options.exit) {
     if (verbose) console.log('exit')
-    board.disconnect().catch(console.log)
   }
 }
