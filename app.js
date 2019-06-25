@@ -25,10 +25,10 @@ board.autoFindOpenBCIBoard().then(portName => {
       Socket.emit("info", board.getInfo());
 
       board.on('sample',(sample) => {
-        if(sample.sampleNumber != 1){
+        //if(sample.sampleNumber != 1){
           process.stdout.write(".");
           Socket.emit("sample", sample);
-        }
+        //}
       })
     })
   })
