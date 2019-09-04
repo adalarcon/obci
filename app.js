@@ -4,6 +4,7 @@ const verbose = true
 const Cyton = require('@openbci/cyton')
 const IO = require('socket.io-client');
 const Socket = IO('http://localhost:3000/api/v1/io/logs')
+const ConvertBase = require('./utils.js');
 
 const board = new Cyton({
   debug: false,
@@ -23,12 +24,15 @@ board.autoFindOpenBCIBoard().then(portName => {
       console.log("[app][board] Sample Rate", board.sampleRate())
 
       Socket.emit("info", board.getInfo());
+      let data = [];
 
       board.on('sample',(sample) => {
-        //if(sample.sampleNumber != 1){
-          process.stdout.write(".");
-          Socket.emit("sample", sample);
-        //}
+        sample.channelAux = [
+          ConvertBase.bin2dec(ConvertBase.dec2bin(sample.auxData[0]) + ConvertBase.dec2bin(sample.auxData[1])), 
+          ConvertBase.bin2dec(ConvertBase.dec2bin(sample.auxData[2]) + ConvertBase.dec2bin(sample.auxData[3])), 
+          ConvertBase.bin2dec(ConvertBase.dec2bin(sample.auxData[4]) + ConvertBase.dec2bin(sample.auxData[5]))
+        ]
+        Socket.emit("sample", sample);
       })
     })
   })
